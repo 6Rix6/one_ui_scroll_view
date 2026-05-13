@@ -2,6 +2,9 @@
 
 Implementation of Samsung's One UI signature scrolling behavior in Flutter. Created based on [jja08111/one_ui_scroll_view](https://github.com/jja08111/one_ui_scroll_view)
 
+> [!NOTE]
+> This widget should not be used in situations where the vertical screen size is extremely small, such as on devices that use mouse scrolling like desktops, or on smartphones in landscape orientation.
+
 ## Screenshot
 
 <p>
