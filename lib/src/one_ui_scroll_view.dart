@@ -270,10 +270,12 @@ class _OneUiScrollViewState extends State<OneUiScrollView>
 
   double _calculateExpandRatio(BoxConstraints constraints) {
     final topPadding = MediaQuery.of(context).padding.top;
+    final appBarHeight =
+        _appBar.toolbarHeight + (_appBar.bottom?.preferredSize.height ?? 0);
 
     var expandRatio =
-        (constraints.maxHeight - _appBar.toolbarHeight - topPadding) /
-        (_calculatedExpandedHeight - _appBar.toolbarHeight);
+        (constraints.maxHeight - appBarHeight - topPadding) /
+        (_calculatedExpandedHeight - appBarHeight);
 
     return expandRatio.clamp(0.0, double.infinity);
   }
