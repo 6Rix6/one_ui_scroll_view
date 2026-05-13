@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:one_ui_scroll_view/src/one_ui_scaffold.dart';
+import 'package:one_ui_scroll_view/src/one_ui_scroll_view.dart';
 
 void main() {
   runApp(
@@ -19,20 +20,22 @@ class OneUiExample extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OneUiScaffold(
-      expandedTitle: const Text(
-        'Settings',
-        style: TextStyle(fontSize: 34, fontWeight: FontWeight.w300),
+      appBar: OneUiAppBar(
+        expandedTitle: const Text(
+          'Settings',
+          style: TextStyle(fontSize: 34, fontWeight: FontWeight.w300),
+        ),
+        collapsedTitle: const Text(
+          'Settings',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        actions: [
+          IconButton(icon: const Icon(Icons.search), onPressed: () {}),
+          IconButton(icon: const Icon(Icons.more_vert), onPressed: () {}),
+        ],
       ),
-      collapsedTitle: const Text(
-        'Settings',
-        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-      ),
-      actions: [
-        IconButton(icon: const Icon(Icons.search), onPressed: () {}),
-        IconButton(icon: const Icon(Icons.more_vert), onPressed: () {}),
-      ],
       childrenPadding: const EdgeInsets.symmetric(horizontal: 16),
-      children: [
+      slivers: [
         _buildSettingsCard(
           context,
           Icons.wifi,
@@ -117,15 +120,17 @@ class OneUiExample extends StatelessWidget {
     String subtitle, {
     double top = 12,
   }) {
-    return Padding(
-      padding: EdgeInsets.only(top: top),
-      child: SettingTile(
-        icon: icon,
-        title: title,
-        subtitle: subtitle,
-        onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => DetailPage(title: title)),
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: EdgeInsets.only(top: top),
+        child: SettingTile(
+          icon: icon,
+          title: title,
+          subtitle: subtitle,
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => DetailPage(title: title)),
+          ),
         ),
       ),
     );
@@ -139,23 +144,26 @@ class DetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OneUiScaffold(
-      expandedTitle: Text(
-        title,
-        style: TextStyle(fontSize: 34, fontWeight: FontWeight.w300),
+      appBar: OneUiAppBar(
+        expandedTitle: Text(
+          title,
+          style: TextStyle(fontSize: 34, fontWeight: FontWeight.w300),
+        ),
+        collapsedTitle: Text(
+          title,
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        actions: [
+          IconButton(icon: const Icon(Icons.search), onPressed: () {}),
+          IconButton(icon: const Icon(Icons.more_vert), onPressed: () {}),
+        ],
+        initiallyCollapsed: true,
+        actionsAlignment: Alignment.topRight,
+        collapsedTitleAlignment: Alignment.topLeft,
+        stretch: true,
       ),
-      collapsedTitle: Text(
-        title,
-        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-      ),
-      actions: [
-        IconButton(icon: const Icon(Icons.search), onPressed: () {}),
-        IconButton(icon: const Icon(Icons.more_vert), onPressed: () {}),
-      ],
-      initiallyCollapsed: true,
-      actionsAlignment: Alignment.topRight,
-      collapsedTitleAlignment: Alignment.topLeft,
       childrenPadding: const EdgeInsets.symmetric(horizontal: 16),
-      children: List.generate(
+      slivers: List.generate(
         20,
         (index) => _buildSettingsCard(
           Icons.settings,
@@ -172,13 +180,15 @@ class DetailPage extends StatelessWidget {
     String subtitle, {
     double top = 12,
   }) {
-    return Padding(
-      padding: EdgeInsets.only(top: top),
-      child: SettingTile(
-        icon: icon,
-        title: title,
-        subtitle: subtitle,
-        onTap: () {},
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: EdgeInsets.only(top: top),
+        child: SettingTile(
+          icon: icon,
+          title: title,
+          subtitle: subtitle,
+          onTap: () {},
+        ),
       ),
     );
   }
