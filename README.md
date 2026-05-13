@@ -1,40 +1,28 @@
 # One UI Scroll View
 
-A Flutter package that replicates the signature scrolling behavior and AppBar style of Samsung's One UI. This package provides an easy-to-use Scaffold and ScrollView to create beautiful, expanding/collapsing app headers with snapping and stretch effects.
+Implementation of Samsung's One UI signature scrolling behavior in Flutter. Created based on [jja08111/one_ui_scroll_view](https://github.com/jja08111/one_ui_scroll_view)
 
 ## Screenshot
 
-![Expanded](images/settings_expanded.png)
+<p>
+  <img src="images/settings_expanded.png" width="40%">
+  <img src="images/settings_collapsed.png" width="40%">
+</p>
 
-![Collapsed](images/settings_collapsed.png)
+<p>
 
-![Expanded - with bottom](images/details_expanded.png)
-
-![Collapsed - with bottom](images/details_collapsed.png)
+<p>
+  <img src="images/details_expanded.png" width="40%">
+  <img src="images/details_collapsed.png" width="40%">
+</p>
 
 ## Features
 
 - **Expanding/Collapsing AppBar**: Smoothly transitions between a large expanded title and a smaller collapsed title as the user scrolls.
 - **Snapping Behavior**: The AppBar intelligently snaps to either fully expanded or fully collapsed states.
-- **Overscroll Stretch Effect**: Supports an interactive stretch effect when overscrolling at the top, just like native One UI apps.
-- **Rounded Mask**: Automatically masks scrolling content with customizable rounded corners for a premium card-like feel.
+- **Overscroll Stretch Effect**: Supports an interactive stretch effect when overscrolling at the top.
+- **Rounded Mask**: Automatically masks scrolling content with customizable rounded corners.
 - **Customizable**: Easy to customize titles, actions, colors, and transitions.
-
-## Getting Started
-
-Add the dependency to your `pubspec.yaml` file:
-
-```yaml
-dependencies:
-  one_ui_scroll_view: <latest_version>
-```
-
-Import the package:
-
-```dart
-import 'package:one_ui_scroll_view/src/one_ui_scaffold.dart';
-import 'package:one_ui_scroll_view/src/one_ui_scroll_view.dart';
-```
 
 ## Usage
 
@@ -42,8 +30,8 @@ Use the `OneUiScaffold` and `OneUiAppBar` just like you would use a standard Flu
 
 ```dart
 import 'package:flutter/material.dart';
-import 'package:one_ui_scroll_view/src/one_ui_scaffold.dart';
-import 'package:one_ui_scroll_view/src/one_ui_scroll_view.dart';
+import 'one_ui_scaffold.dart';
+import 'one_ui_scroll_view.dart';
 
 class MySettingsPage extends StatelessWidget {
   @override
@@ -84,6 +72,6 @@ class MySettingsPage extends StatelessWidget {
 - **Custom Bottom Widget**: Add a bottom widget to your `OneUiAppBar` (e.g., switches or tabs) that seamlessly integrates with the scroll behavior.
 - **Transitions**: Completely override title transitions via `expandedTitleTransitionBuilder` and `collapsedTitleTransitionBuilder`.
 
-## Dependencies
+## License
 
-This package uses `nested_scroll_view_plus` for advanced nested scrolling capabilities under the hood.
+MIT License
