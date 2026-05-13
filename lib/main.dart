@@ -137,26 +137,37 @@ class OneUiExample extends StatelessWidget {
   }
 }
 
-class DetailPage extends StatelessWidget {
+class DetailPage extends StatefulWidget {
   final String title;
   const DetailPage({super.key, required this.title});
+
+  @override
+  State<DetailPage> createState() => _DetailPageState();
+}
+
+class _DetailPageState extends State<DetailPage> {
+  bool _enabled = true;
 
   @override
   Widget build(BuildContext context) {
     return OneUiScaffold(
       appBar: OneUiAppBar(
         expandedTitle: Text(
-          title,
+          widget.title,
           style: TextStyle(fontSize: 34, fontWeight: FontWeight.w300),
         ),
         collapsedTitle: Text(
-          title,
+          widget.title,
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         actions: [
           IconButton(icon: const Icon(Icons.search), onPressed: () {}),
           IconButton(icon: const Icon(Icons.more_vert), onPressed: () {}),
         ],
+        bottom: BottomSwitch(
+          enabled: _enabled,
+          onChanged: (value) => setState(() => _enabled = value),
+        ),
         initiallyCollapsed: true,
         actionsAlignment: Alignment.topRight,
         collapsedTitleAlignment: Alignment.topLeft,
@@ -167,7 +178,7 @@ class DetailPage extends StatelessWidget {
         20,
         (index) => _buildSettingsCard(
           Icons.settings,
-          '$title Option $index',
+          '${widget.title} Option $index',
           'Description for option $index',
         ),
       ),
@@ -188,6 +199,7 @@ class DetailPage extends StatelessWidget {
           title: title,
           subtitle: subtitle,
           onTap: () {},
+          enabled: _enabled,
         ),
       ),
     );
@@ -198,6 +210,7 @@ class SettingTile extends StatelessWidget {
   final IconData icon;
   final String title;
   final String subtitle;
+  final bool enabled;
   final VoidCallback? onTap;
 
   const SettingTile({
@@ -205,6 +218,7 @@ class SettingTile extends StatelessWidget {
     required this.icon,
     required this.title,
     required this.subtitle,
+    this.enabled = true,
     this.onTap,
   });
 
@@ -218,12 +232,55 @@ class SettingTile extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor: Colors.blueAccent.withValues(alpha: 0.1),
-          child: Icon(icon, color: Colors.blueAccent),
+          backgroundColor: colorScheme.primaryContainer.withValues(alpha: .5),
+          child: Icon(icon, color: colorScheme.onPrimaryContainer),
         ),
         title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
         subtitle: Text(subtitle),
         onTap: onTap,
+        enabled: enabled,
+      ),
+    );
+  }
+}
+
+class BottomSwitch extends StatelessWidget implements PreferredSizeWidget {
+  final bool enabled;
+  final ValueChanged<bool>? onChanged;
+
+  const BottomSwitch({
+    super.key,
+    required this.enabled,
+    required this.onChanged,
+  });
+
+  @override
+  Size get preferredSize => Size.fromHeight(64);
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Padding(
+      padding: EdgeInsetsGeometry.fromLTRB(16, 0, 16, 8),
+      child: Container(
+        decoration: ShapeDecoration(
+          shape: StadiumBorder(),
+          color: theme.colorScheme.secondaryContainer.withValues(alpha: .4),
+        ),
+        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(width: 16),
+            Text(
+              'Enabled',
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            const Spacer(),
+            Switch(value: enabled, onChanged: onChanged),
+          ],
+        ),
       ),
     );
   }

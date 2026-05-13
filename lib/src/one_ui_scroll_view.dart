@@ -317,7 +317,7 @@ class _OneUiScrollViewState extends State<OneUiScrollView>
     Animation<double> animation,
     Widget? leading,
   ) {
-    final child = Align(
+    Widget child = Align(
       alignment: Alignment.centerLeft,
       child: DefaultTextStyle(
         style: Theme.of(context).textTheme.titleLarge!,
@@ -408,6 +408,7 @@ class _OneUiScrollViewState extends State<OneUiScrollView>
               expandedHeight: _calculatedExpandedHeight + stretchAmount,
               toolbarHeight: _appBar.toolbarHeight,
               elevation: _appBar.elevation,
+              bottom: _appBar.bottom,
               flexibleSpace: LayoutBuilder(
                 builder: (context, constraints) {
                   final expandRatio = _calculateExpandRatio(constraints);
@@ -415,17 +416,22 @@ class _OneUiScrollViewState extends State<OneUiScrollView>
                     expandRatio.clamp(0.0, 1.0),
                   );
 
-                  return Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      _extendedTitle(animation, expandRatio),
-                      _collapsedTitle(context, animation, leading),
-                      _actions(context),
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: _appBar.bottomDivider,
-                      ),
-                    ],
+                  final bottomPadding = _appBar.bottom != null
+                      ? EdgeInsets.only(
+                          bottom: _appBar.bottom!.preferredSize.height,
+                        )
+                      : EdgeInsets.zero;
+
+                  return Padding(
+                    padding: bottomPadding,
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        _extendedTitle(animation, expandRatio),
+                        _collapsedTitle(context, animation, leading),
+                        _actions(context),
+                      ],
+                    ),
                   );
                 },
               ),
@@ -542,7 +548,7 @@ class OneUiAppBar {
     this.leading,
     this.actions,
     this.actionSpacing = 0.0,
-    this.bottomDivider,
+    this.bottom,
     this.expandedHeight,
     this.toolbarHeight = kToolbarHeight,
     this.elevation = 0.0,
@@ -568,7 +574,7 @@ class OneUiAppBar {
   final Widget? leading;
   final List<Widget>? actions;
   final double actionSpacing;
-  final Divider? bottomDivider;
+  final PreferredSizeWidget? bottom;
   final double? expandedHeight;
   final double toolbarHeight;
   final double elevation;
